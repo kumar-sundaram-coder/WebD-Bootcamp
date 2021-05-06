@@ -47,6 +47,8 @@ app.set("view engine", "ejs");
 
 //using bodyparser
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//static folder
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
@@ -75,7 +77,6 @@ app.get("/:customListName", (req, res) => {
     if (!err) {
       if (!foundList) {
         // Create a new List
-
         const list = new List({
           name: customListName,
           items: defaultItems,
@@ -101,6 +102,7 @@ app.post("/", (req, res) => {
   const item = new Item({
     name: itemName,
   });
+
   if (listName === "Today") {
     item.save();
     res.redirect("/");
@@ -116,6 +118,7 @@ app.post("/", (req, res) => {
 app.post("/delete", (req, res) => {
   const checkeditemId = req.body.checkbox;
   const listName = req.body.listName;
+
   // console.log(req.body.checkbox);
   if (listName === "Today") {
     Item.findByIdAndRemove(checkeditemId, (err) => {
