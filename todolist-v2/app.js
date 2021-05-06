@@ -6,10 +6,13 @@ const _ = require("lodash");
 const app = express();
 
 //mongoose to connect with mongoDB
-mongoose.connect("mongodb://localhost:27017/todolistDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://Kumar_Sundaram:E7TtCYV@H55Dfhx@cluster0.mwwce.mongodb.net/todolistDB",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 //schema
 const itemsSchema = {
@@ -140,7 +143,13 @@ app.post("/delete", (req, res) => {
   }
 });
 
-// listen to the following port i.e., 3000
-app.listen(3000, () => {
-  console.log("Server is running on Port 3000");
+// listen to the following port
+
+let port = process.env.PORT;
+if(port ==null || port ==""){
+  port=3000;
+}
+
+app.listen(port, () => {
+  console.log("Server has Started Successfully");
 });
