@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 
 function App() {
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  // const [fullName, setfullName]= useState("");
+  const [fullName, setfullName] = useState({
+    fname: "",
+    lname: "",
+  });
 
-  const fnameChangeHandler = () => {
-    setFname(event.target.value);
-  };
-  const lnameChangeHandler = () => {
-    setLname(event.target.value);
+  const changeHandler = (event) => {
+    const { value, name } = event.target;
+
+    setfullName((prevValue) => {
+      if (name === "fname") {
+        return {
+          fname: value,
+          lname: prevValue.lname,
+        };
+      } else if (name === "lname") {
+        return {
+          fname: prevValue.fname,
+          lname: value,
+        };
+      }
+    });
   };
 
   const submitClickHandler = (event) => {
@@ -17,21 +29,23 @@ function App() {
   };
   return (
     <div className="container">
-      <h1>Hello {fname + " " + lname}</h1>
+      <h1>
+        Hello {fullName.fname} {fullName.lname}
+      </h1>
       <form onSubmit={submitClickHandler}>
         <input
-          onChange={fnameChangeHandler}
+          onChange={changeHandler}
           type="text"
-          name="fName"
+          name="fname"
           placeholder="First Name"
-          value={fname}
+          value={fullName.fname}
         />
         <input
-          onChange={lnameChangeHandler}
+          onChange={changeHandler}
           type="text"
-          name="lName"
+          name="lname"
           placeholder="Last Name"
-          value={lname}
+          value={fullName.lname}
         />
         <button type="submit">Submit</button>
       </form>
